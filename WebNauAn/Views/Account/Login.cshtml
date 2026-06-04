@@ -1,0 +1,17 @@
+﻿<h2>Đăng Nhập Hệ Thống</h2>
+<hr />
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+<form action="/Account/Login" method="post" style="max-width: 400px;">
+    <div class="mb-3">
+        <label>Tên tài khoản:</label>
+        <input type="text" name="username" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Mật khẩu:</label>
+        <input type="password" name="password" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-success">Đăng nhập ngay</button>
+</form>

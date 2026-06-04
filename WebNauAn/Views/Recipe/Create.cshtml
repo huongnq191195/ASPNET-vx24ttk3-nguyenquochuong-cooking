@@ -1,0 +1,32 @@
+﻿@model WebNauAn.Models.Recipe
+
+<h2>Chia Sẻ Công Thức Của Bạn</h2>
+<hr />
+<form action="/Recipe/Create" method="post" enctype="multipart/form-data">
+
+    <div class="form-group mb-3">
+        <label class="form-label font-weight-bold">Tên món ăn:</label>
+        <input type="text" name="TenMon" class="form-control" placeholder="Ví dụ: Phở Bò Thập Cẩm" required />
+    </div>
+
+    <div class="form-group mb-3">
+        <label class="form-label">Chọn Danh Mục Món Ăn:</label>
+        <select name="CategoryId" class="form-control">
+            <option value="1">Món Việt - Món chính</option>
+            <option value="2">Món Hàn - Món chính</option>
+            <option value="3">Món Thái - Món khai vị</option>
+        </select>
+    </div>
+
+    <div class="form-group mb-3">
+        <label class="form-label font-weight-bold">Tải ảnh món ăn từ máy tính:</label>
+        <input type="file" name="AnhFile" class="form-control" accept="image/*" required />
+    </div>
+
+    <div class="form-group mb-3">
+        <label class="form-label">Công thức / Cách làm:</label>
+        <textarea name="CongThuc" class="form-control" rows="5" placeholder="Bước 1: Sơ chế... Bước 2: Nấu..." required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-lg">🚀 Gửi bài chờ Admin duyệt</button>
+</form>

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebNauAn.Models.Recipe>
+
+<h2>Trang Quản Lý Của Admin (Duyệt/Xóa Bài)</h2>
+<hr />
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Hình ảnh</th>
+            <th>Tên món</th>
+            <th>Danh mục</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><img src="@item.HinhanhUrl" width="80" /></td>
+                <td>@item.TenMon</td>
+                <td>@item.Category?.TenQuocGia - @item.Category?.LoaiMon</td>
+                <td>
+                    @if (item.IsApproved)
+                    {
+                        <span class="badge bg-success">Đã hiển thị trên web</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning text-dark">Chờ duyệt</span>
+                    }
+                </td>
+                <td>
+                    @if (!item.IsApproved)
+                    {
+                        <a href="/Recipe/Approve/@item.Id" class="btn btn-sm btn-primary">Bấm để Duyệt</a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-sm btn-secondary" disabled>Đã duyệt xong</button>
+                    }
+
+                    <a href="/Recipe/Delete/@item.Id" class="btn btn-sm btn-danger"
+                       onclick="return confirm('Bạn có chắc chắn muốn XÓA hẳn món ăn này không?')">🗑️ Xóa bài</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
