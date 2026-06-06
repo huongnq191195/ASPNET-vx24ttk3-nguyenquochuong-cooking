@@ -1,32 +1,79 @@
 ﻿@model WebNauAn.Models.Recipe
 
-<h2>Chia Sẻ Công Thức Của Bạn</h2>
-<hr />
-<form action="/Recipe/Create" method="post" enctype="multipart/form-data">
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card p-4 shadow-sm">
+                <h2 class="text-success">🚀 Chia Sẻ Công Thức Của Bạn</h2>
+                <hr />
+                <form action="/Recipe/Create" method="post" enctype="multipart/form-data">
 
-    <div class="form-group mb-3">
-        <label class="form-label font-weight-bold">Tên món ăn:</label>
-        <input type="text" name="TenMon" class="form-control" placeholder="Ví dụ: Phở Bò Thập Cẩm" required />
+                    <div class="form-group mb-3">
+                        <label class="form-label font-weight-bold">Tên món ăn:</label>
+                        <input type="text" name="TenMon" class="form-control" placeholder="Ví dụ: Phở Bò Thập Cẩm" required />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label font-weight-bold">Danh mục món ăn:</label>
+                        <select name="CategoryId" class="form-control" required>
+                            <option value="">-- Chọn danh mục món ăn --</option>
+                            @if (ViewBag.Categories != null)
+                            {
+                                var danhSachGomNhom = ((List<WebNauAn.Models.Category>)ViewBag.Categories).GroupBy(c => c.MucCha);
+                                foreach (var nhom in danhSachGomNhom)
+                                {
+                                    <optgroup label="🔹 @nhom.Key">
+                                        @foreach (var cat in nhom)
+                                        {
+                                            <option value="@cat.Id">   + @cat.MucCon</option>
+                                        }
+                                    </optgroup>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label font-weight-bold">Tải ảnh món ăn từ máy tính:</label>
+                        <input type="file" name="AnhFile" class="form-control" accept="image/*" required />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label font-weight-bold text-primary">🛒 Nguyên liệu chuẩn bị:</label>
+                        <textarea name="NguyenLieu" class="form-control" rows="4" placeholder="- 500g Khoai tây&#10;- 2 muỗng canh bơ muối&#10;- Hành lá, gia vị..." required></textarea>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label font-weight-bold text-success">🍳 Cách thực hiện chi tiết:</label>
+                        <textarea name="CongThuc" class="form-control" rows="6" placeholder="Bước 1: Gọt vỏ khoai tây và ngâm nước muối...&#10;Bước 2: Chiên vàng đều..." required></textarea>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">🚀 Gửi bài chờ Admin duyệt</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-4 shadow-sm border-warning" style="background-color: #fffdf6;">
+                <h4 class="text-warning font-weight-bold">💡 Thêm Danh Mục Mới</h4>
+                <p class="text-muted small">Nếu danh mục không có nhóm bạn cần, hãy tự thêm vào hệ thống!</p>
+                <hr />
+                <form action="/Recipe/CreateCategory" method="post">
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Danh mục chính (Ví dụ: Món Việt, Món Nhật...):</label>
+                        <input type="text" name="MucCha" class="form-control" placeholder="Gõ tên danh mục chính..." required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Danh mục phụ (Ví dụ: Món ăn vặt, Món chay...):</label>
+                        <input type="text" name="MucCon" class="form-control" placeholder="Gõ tên danh mục phụ tương ứng..." required />
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning text-dark font-weight-bold">➕ Thêm Vào Hệ Thống</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group mb-3">
-        <label class="form-label">Chọn Danh Mục Món Ăn:</label>
-        <select name="CategoryId" class="form-control">
-            <option value="1">Món Việt - Món chính</option>
-            <option value="2">Món Hàn - Món chính</option>
-            <option value="3">Món Thái - Món khai vị</option>
-        </select>
-    </div>
-
-    <div class="form-group mb-3">
-        <label class="form-label font-weight-bold">Tải ảnh món ăn từ máy tính:</label>
-        <input type="file" name="AnhFile" class="form-control" accept="image/*" required />
-    </div>
-
-    <div class="form-group mb-3">
-        <label class="form-label">Công thức / Cách làm:</label>
-        <textarea name="CongThuc" class="form-control" rows="5" placeholder="Bước 1: Sơ chế... Bước 2: Nấu..." required></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-success btn-lg">🚀 Gửi bài chờ Admin duyệt</button>
-</form>
+</div>

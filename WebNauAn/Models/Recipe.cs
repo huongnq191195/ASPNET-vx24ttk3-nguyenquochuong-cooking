@@ -1,20 +1,22 @@
-﻿namespace WebNauAn.Models
+﻿using System.Collections.Generic;
+
+namespace WebNauAn.Models
 {
     public class Recipe
     {
         public int Id { get; set; }
-        public string TenMon { get; set; }
+        public string TenMon { get; set; } = string.Empty;
+        public string NguyenLieu { get; set; } = string.Empty;
+        public string CongThuc { get; set; } = string.Empty;
+        public string HinhanhUrl { get; set; } = string.Empty;
+        public bool IsApproved { get; set; } = false;
+        public int LuotLike { get; set; } = 0;
 
-        // Lưu phân loại quốc gia (Món Việt, Món Hàn... hoặc chữ tự nhập)
-        public string MucCha { get; set; }
+        public string Username { get; set; } = string.Empty;
 
-        // Lưu loại món (Món chính, Món khai vị... hoặc chữ tự nhập)
-        public string MucCon { get; set; }
+        public List<Comment> Comments { get; set; } = new List<Comment>();
 
-        public string HinhanhUrl { get; set; }
-        public string CongThuc { get; set; }
-
-        // Trạng thái duyệt bài: Admin đăng = true (hiện luôn), Thành viên đăng = false (chờ duyệt)
-        public bool IsApproved { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; } = null!;
     }
 }

@@ -1,17 +1,43 @@
-﻿<h2>Đăng Nhập Hệ Thống</h2>
-<hr />
-@if (ViewBag.Error != null)
-{
-    <div class="alert alert-danger">@ViewBag.Error</div>
-}
-<form action="/Account/Login" method="post" style="max-width: 400px;">
-    <div class="mb-3">
-        <label>Tên tài khoản:</label>
-        <input type="text" name="username" class="form-control" required />
+﻿<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow p-4 border-0 rounded-3">
+                <h3 class="text-center text-success mb-4 font-weight-bold">🔑 Đăng Nhập</h3>
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show small" role="alert">
+                        ✨ @TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="alert alert-danger small">
+                        ❌ @ViewBag.ErrorMessage
+                    </div>
+                }
+
+                <form action="/Account/Login" method="post">
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Tên đăng nhập:</label>
+                        <input type="text" name="username" class="form-control" placeholder="Nhập tên tài khoản..." required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Mật khẩu:</label>
+                        <input type="password" name="password" class="form-control" placeholder="Nhập mật khẩu..." required />
+                    </div>
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-success btn-lg font-weight-bold shadow-sm">Đăng Nhập</button>
+                    </div>
+                </form>
+
+                <hr />
+                <div class="text-center">
+                    <p class="text-muted mb-0">Chưa có tài khoản? <a href="/Account/Register" class="text-success text-decoration-none font-weight-bold">Đăng ký thành viên mới</a></p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label>Mật khẩu:</label>
-        <input type="password" name="password" class="form-control" required />
-    </div>
-    <button type="submit" class="btn btn-success">Đăng nhập ngay</button>
-</form>
+</div>

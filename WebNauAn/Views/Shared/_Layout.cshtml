@@ -10,6 +10,23 @@
     <link rel="stylesheet" href="~/WebNauAn.styles.css" asp-append-version="true" />
 </head>
 <body>
+    <style>
+        body {
+        /* Gọi trực tiếp file ảnh nền cố định được Admin tải lên */
+        background-image: url('/images/bg_cooking.jpg');
+        background-attachment: fixed; /* Giữ cố định nền khi cuộn chuột */
+        background-size: cover; /* Tự động co giãn phủ kín màn hình */
+        background-position: center; /* Luôn căn giữa ảnh đẹp nhất */
+        background-repeat: no-repeat;
+        }
+        /* Làm mờ nhẹ phần nội dung để chữ nổi bật, dễ đọc */
+        .container {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -27,9 +44,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="/Recipe/Create">✍️ Đăng Công Thức</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-danger font-weight-bold" href="/Recipe/AdminDuyet">🛡️ Kênh Admin</a>
-                        </li>
+
+                        @if (Context.Session.GetString("Role") == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-danger font-weight-bold" href="/Recipe/AdminDuyet">🛡️ Kênh Admin</a>
+                            </li>
+                        }
 
                         @if (string.IsNullOrEmpty(Context.Session.GetString("Username")))
                         {

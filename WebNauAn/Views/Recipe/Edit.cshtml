@@ -1,0 +1,69 @@
+﻿@model WebNauAn.Models.Recipe
+@{
+    ViewData["Title"] = "Chỉnh Sửa Công Thức";
+    var categories = ViewBag.Categories as List<WebNauAn.Models.Category>;
+}
+
+<div class="container mt-4" style="max-width: 700px;">
+    <div class="card shadow border-warning">
+        <div class="card-header bg-warning text-dark font-weight-bold">
+            <h4 class="mb-0">✏️ Chỉnh Sửa Công Thức: @Model.TenMon</h4>
+        </div>
+        <div class="card-body">
+            <form action="/Recipe/Edit/@Model.Id" method="post" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">📌 Tên món ăn:</label>
+                    <input type="text" name="TenMon" value="@Model.TenMon" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">📂 Danh mục món ăn:</label>
+                    <select name="CategoryId" class="form-select" required>
+                        @if (categories != null)
+                        {
+                            foreach (var cat in categories)
+                            {
+                                <option value="@cat.Id" selected="@(cat.Id == Model.CategoryId ? "selected" : null)">
+                                    @cat.MucCha → @cat.MucCon
+                                </option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">🛒 Nguyên liệu công thức:</label>
+                    <textarea name="NguyenLieu" class="form-control" rows="3" required>@Model.NguyenLieu</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">📝 Các bước thực hiện:</label>
+                    <textarea name="CongThuc" class="form-control" rows="5" required>@Model.CongThuc</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">🖼️ Ảnh món ăn hiện tại:</label>
+                    <div class="mb-2">
+                        <img src="@Model.HinhanhUrl" class="img-thumbnail" style="max-height: 150px;" />
+                    </div>
+                    <label class="form-label small text-muted">Thay đổi hình ảnh mới (Để trống nếu giữ nguyên):</label>
+                    <input type="file" name="Hinhanh" class="form-control" accept="image/*" />
+                </div>
+
+                @if (Context.Session.GetString("Role") != "Admin")
+                {
+                    <div class="alert alert-info py-2 small">
+                        ℹ️ <b>Lưu ý:</b> Vì bạn là thành viên, sau khi cập nhật, bài viết sẽ tạm ẩn để chờ Ban Quản Trị (Admin) xét duyệt lại trước khi hiển thị công khai.
+                    </div>
+                }
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="/Recipe/Index" class="btn btn-secondary">Hủy bỏ</a>
+                    <button type="submit" class="btn btn-warning fw-bold px-4">Cập nhật công thức</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

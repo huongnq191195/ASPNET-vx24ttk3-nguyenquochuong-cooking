@@ -1,49 +1,85 @@
 ﻿@model IEnumerable<WebNauAn.Models.Recipe>
+<div class="container mt-4">
+    <h2 class="text-danger border-bottom pb-2 font-weight-bold">🛠️ Trang Quản Trị Viên (Admin)</h2>
 
-<h2>Trang Quản Lý Của Admin (Duyệt/Xóa Bài)</h2>
-<hr />
+    <div class="row mt-4">
+        <div class="col-md-4 mb-4">
+            <div class="card p-4 shadow-sm border-success" style="background-color: #f6fff8;">
+                <h4 class="text-success font-weight-bold">🖼️ Thay Đổi Hình Nền Web</h4>
+                <p class="text-muted small">Tải ảnh nền mới từ máy tính của bạn.</p>
+                <hr />
+                <form action="/Recipe/UploadBackground" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <input type="file" name="BackgroundFile" class="form-control" accept="image/*" required />
+                    </div>
+                    <button type="submit" class="btn btn-success w-100 font-weight-bold">💾 Lưu và Áp dụng nền mới</button>
+                </form>
+            </div>
+        </div>
 
-<table class="table table-bordered table-striped">
-    <thead class="table-dark">
-        <tr>
-            <th>Hình ảnh</th>
-            <th>Tên món</th>
-            <th>Danh mục</th>
-            <th>Trạng thái</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td><img src="@item.HinhanhUrl" width="80" /></td>
-                <td>@item.TenMon</td>
-                <td>@item.Category?.TenQuocGia - @item.Category?.LoaiMon</td>
-                <td>
-                    @if (item.IsApproved)
-                    {
-                        <span class="badge bg-success">Đã hiển thị trên web</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-warning text-dark">Chờ duyệt</span>
-                    }
-                </td>
-                <td>
-                    @if (!item.IsApproved)
-                    {
-                        <a href="/Recipe/Approve/@item.Id" class="btn btn-sm btn-primary">Bấm để Duyệt</a>
-                    }
-                    else
-                    {
-                        <button class="btn btn-sm btn-secondary" disabled>Đã duyệt xong</button>
-                    }
+        <div class="col-md-8 mb-4">
+            <div class="card p-4 shadow-sm bg-dark text-white h-100">
+                <h4>📊 Tổng quan hệ thống</h4>
+                <hr class="bg-white" />
+                <p class="fs-5">Chào mừng quay trở lại, <strong>Admin</strong>!</p>
+                <ul>
+                    <li>Tổng số bài viết trên hệ thống: <strong>@Model.Count()</strong></li>
+                    <li>Bài viết chờ duyệt: <strong>@Model.Count(r => !r.IsApproved)</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-                    <a href="/Recipe/Delete/@item.Id" class="btn btn-sm btn-danger"
-                       onclick="return confirm('Bạn có chắc chắn muốn XÓA hẳn món ăn này không?')">🗑️ Xóa bài</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <div class="card p-4 shadow-sm">
+        <h4 class="mb-3 font-weight-bold text-secondary">📋 Danh sách quản lý bài đăng</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width: 10%">Hình ảnh</th>
+                        <th>Tên món ăn</th>
+                        <th>Danh mục</th>
+                        <th style="width: 15%">Trạng thái</th>
+                        <th style="width: 20%">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    string imgSrc = item.HinhanhUrl;
+                                    if (!string.IsNullOrEmpty(imgSrc) && !imgSrc.StartsWith("/"))
+                                    {
+                                        imgSrc = "/" + imgSrc; // Tự sửa lỗi đường dẫn cục bộ nếu thiếu dấu gạch chéo
+                                    }
+                                }
+                                <img src="@imgSrc" class="img-thumbnail" style="width: 80px; height: 60px; object-fit: cover;" />
+                            </td>
+                            <td><strong>@item.TenMon</strong></td>
+                            <td>@item.Category?.MucCha - @item.Category?.MucCon</td>
+                            <td>
+                                @if (item.IsApproved)
+                                {
+                                    <span class="badge bg-success p-2">✅ Đang hiển thị</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark p-2">⏳ Chờ kiểm duyệt</span>
+                                }
+                            </td>
+                            <td>
+                                @if (!item.IsApproved)
+                                {
+                                    <a href="/Recipe/Approve/@item.Id" class="btn btn-sm btn-primary me-1 font-weight-bold">✔ Duyệt bài</a>
+                                }
+                                <a href="/Recipe/Delete/@item.Id" onclick="return confirm('Bạn có chắc chắn muốn xóa bài này không?')" class="btn btn-sm btn-danger font-weight-bold">❌ Xóa bài</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

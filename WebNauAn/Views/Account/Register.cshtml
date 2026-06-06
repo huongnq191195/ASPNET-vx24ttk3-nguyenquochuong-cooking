@@ -1,13 +1,37 @@
-﻿<h2>Đăng Ký Thành Viên</h2>
-<hr />
-<form action="/Account/Register" method="post" style="max-width: 400px;">
-    <div class="mb-3">
-        <label>Tên tài khoản (Đặt là "admin" để làm Admin nhé):</label>
-        <input type="text" name="Username" class="form-control" required />
+﻿@model WebNauAn.Models.User
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow p-4 border-0 rounded-3">
+                <h3 class="text-center text-success mb-4 font-weight-bold">📝 Đăng Ký Thành Viên</h3>
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger pb-1 small">
+                        @Html.ValidationSummary(false, "")
+                    </div>
+                }
+
+                <form asp-action="Register" method="post">
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Tên đăng nhập:</label>
+                        <input type="text" name="Username" class="form-control" placeholder="Nhập tên tài khoản mong muốn..." required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Mật khẩu:</label>
+                        <input type="password" name="Password" class="form-control" placeholder="Nhập mật khẩu bảo mật..." required />
+                    </div>
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-success btn-lg font-weight-bold shadow-sm">Đăng Ký Ngay</button>
+                    </div>
+                </form>
+
+                <hr />
+                <div class="text-center">
+                    <p class="text-muted mb-0">Đã có tài khoản rồi? <a href="/Account/Login" class="text-success text-decoration-none font-weight-bold">Đăng nhập tại đây</a></p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label>Mật khẩu:</label>
-        <input type="password" name="Password" class="form-control" required />
-    </div>
-    <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
-</form>
+</div>
