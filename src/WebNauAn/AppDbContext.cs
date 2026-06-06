@@ -13,7 +13,6 @@ namespace WebNauAn
         public DbSet<SavedRecipe> SavedRecipes { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
-        // Bảng mới quản lý người dùng Like
         public DbSet<UserLike> UserLikes { get; set; }
     }
 }

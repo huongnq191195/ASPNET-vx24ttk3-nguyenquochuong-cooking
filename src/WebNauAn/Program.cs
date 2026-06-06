@@ -6,7 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
-// BẮT BUỘC ĐỔI THÀNH V8 ĐỂ HỆ THỐNG TẠO DB MỚI CÓ BẢNG SO SÁNH
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=WebNauAnDb_V15;Trusted_Connection=True;MultipleActiveResultSets=true"));
 

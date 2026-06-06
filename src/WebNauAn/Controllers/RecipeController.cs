@@ -224,7 +224,6 @@ namespace WebNauAn.Controllers
                 var newComment = new Comment { RecipeId = recipeId, Username = username, Role = role ?? "Member", NoiDung = noiDung, NgayDang = DateTime.Now };
                 _context.Comments.Add(newComment); _context.SaveChanges();
             }
-            // ĐÃ SỬA: CHUYỂN VỀ TRANG CHI TIẾT SAU KHI COMMENT
             return RedirectToAction("Details", new { id = recipeId });
         }
 
