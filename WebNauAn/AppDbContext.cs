@@ -11,8 +11,9 @@ namespace WebNauAn
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<SavedRecipe> SavedRecipes { get; set; }
-
-        // Đăng ký bảng Bình luận mới vào Database
         public DbSet<Comment> Comments { get; set; }
+
+        // Bảng mới quản lý người dùng Like
+        public DbSet<UserLike> UserLikes { get; set; }
     }
 }

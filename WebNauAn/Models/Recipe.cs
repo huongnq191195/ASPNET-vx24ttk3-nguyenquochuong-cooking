@@ -13,10 +13,17 @@ namespace WebNauAn.Models
         public int LuotLike { get; set; } = 0;
 
         public string Username { get; set; } = string.Empty;
-
         public List<Comment> Comments { get; set; } = new List<Comment>();
 
         public int CategoryId { get; set; }
         public Category Category { get; set; } = null!;
+
+        // ==========================================
+        // CÁC TRƯỜNG DỮ LIỆU ĐỂ LƯU LỊCH SỬ SỬA ĐỔI
+        // ==========================================
+        public bool IsSuaDoi { get; set; } = false; // Đánh dấu bài này có đang bị sửa hay ko
+        public string? TenMonCu { get; set; }
+        public string? NguyenLieuCu { get; set; }
+        public string? CongThucCu { get; set; }
     }
 }

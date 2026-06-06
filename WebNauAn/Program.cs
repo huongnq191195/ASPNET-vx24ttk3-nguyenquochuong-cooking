@@ -4,9 +4,11 @@ using WebNauAn;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
 
+// BẮT BUỘC ĐỔI THÀNH V8 ĐỂ HỆ THỐNG TẠO DB MỚI CÓ BẢNG SO SÁNH
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=WebNauAnDb_V5;Trusted_Connection=True;MultipleActiveResultSets=true"));
+    options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=WebNauAnDb_V15;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
 builder.Services.AddControllersWithViews();
 
@@ -22,9 +24,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseSession();
-
 app.UseAuthorization();
-
 app.MapStaticAssets();
 
 app.MapControllerRoute(
@@ -40,10 +40,10 @@ using (var scope = app.Services.CreateScope())
     if (!context.Categories.Any())
     {
         context.Categories.AddRange(
-            new WebNauAn.Models.Category { MucCha = "Món Việt", MucCon = "Món chính" },
-            new WebNauAn.Models.Category { MucCha = "Món Việt", MucCon = "Món khai vị" },
-            new WebNauAn.Models.Category { MucCha = "Món Hàn", MucCon = "Món chính" },
-            new WebNauAn.Models.Category { MucCha = "Món Thái", MucCon = "Món khai vị" }
+            new WebNauAn.Models.Category { MucCha = "Món chính", MucCon = "Món Việt" },
+            new WebNauAn.Models.Category { MucCha = "Món chính", MucCon = "Món Hàn" },
+            new WebNauAn.Models.Category { MucCha = "Món ăn vặt", MucCon = "Món Việt" },
+            new WebNauAn.Models.Category { MucCha = "Món ăn vặt", MucCon = "Món Hàn" }
         );
         context.SaveChanges();
     }

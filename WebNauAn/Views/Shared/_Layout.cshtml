@@ -12,25 +12,68 @@
 <body>
     <style>
         body {
-        /* Gọi trực tiếp file ảnh nền cố định được Admin tải lên */
         background-image: url('/images/bg_cooking.jpg');
-        background-attachment: fixed; /* Giữ cố định nền khi cuộn chuột */
-        background-size: cover; /* Tự động co giãn phủ kín màn hình */
-        background-position: center; /* Luôn căn giữa ảnh đẹp nhất */
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
         background-repeat: no-repeat;
         }
-        /* Làm mờ nhẹ phần nội dung để chữ nổi bật, dễ đọc */
+
         .container {
         background-color: rgba(255, 255, 255, 0.95);
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
         }
+
+        /* KHU VỰC CSS TẠO HIỆU ỨNG RÊ CHUỘT (HOVER) */
+        .hover-effect {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-effect:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+        z-index: 10;
+        cursor: pointer;
+        }
+
+        /* Hover cho thanh Menu */
+        .nav-item .nav-link {
+        transition: all 0.3s ease;
+        }
+
+        .nav-item .nav-link:hover {
+        color: #28a745 !important;
+        transform: scale(1.05);
+        text-shadow: 0 0 5px rgba(40,167,69,0.3);
+        }
+
+        /* Hover cho danh mục bên trái */
+        .list-group-item-action {
+        transition: padding-left 0.3s ease, background-color 0.3s;
+        }
+
+        .list-group-item-action:hover {
+        padding-left: 1.5rem !important;
+        background-color: #f1f8f5;
+        color: #198754;
+        font-weight: bold;
+        }
+
+        /* Hover cho Top món ăn */
+        .top-item-hover {
+        transition: background-color 0.2s;
+        }
+
+        .top-item-hover:hover {
+        background-color: #fcf8e3;
+        }
     </style>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebNauAn</a>
+                <a class="navbar-brand fw-bold text-success hover-effect" asp-area="" asp-controller="Recipe" asp-action="Index">🍽️ WebNauAn</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -39,28 +82,32 @@
                     <ul class="navbar-nav flex-grow-1">
                         @using Microsoft.AspNetCore.Http
                     <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Recipe">🏠 Trang Chủ Món Ăn</a>
+                            <a class="nav-link text-dark fw-bold" href="/Recipe">🏠 Trang Chủ Món Ăn</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Recipe/Create">✍️ Đăng Công Thức</a>
+                            <a class="nav-link text-dark fw-bold" href="/Recipe/Create">✍️ Đăng Công Thức</a>
                         </li>
-
+                        @if (!string.IsNullOrEmpty(Context.Session.GetString("Username")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-warning fw-bold" href="/Recipe/SavedList">⭐ Kho Yêu Thích</a>
+                            </li>
+                        }
                         @if (Context.Session.GetString("Role") == "Admin")
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-danger font-weight-bold" href="/Recipe/AdminDuyet">🛡️ Kênh Admin</a>
                             </li>
                         }
-
                         @if (string.IsNullOrEmpty(Context.Session.GetString("Username")))
                         {
-                            <li class="nav-item"><a class="nav-link text-primary" href="/Account/Register">Đăng Ký</a></li>
-                            <li class="nav-item"><a class="nav-link text-success" href="/Account/Login">Đăng Nhập</a></li>
+                            <li class="nav-item ms-auto"><a class="nav-link text-primary fw-bold border rounded px-3 me-2 hover-effect" href="/Account/Register">Đăng Ký</a></li>
+                            <li class="nav-item"><a class="nav-link text-white bg-success fw-bold border rounded px-3 hover-effect" href="/Account/Login">Đăng Nhập</a></li>
                         }
-                        else // Nếu đã đăng nhập rồi thì hiện Chào + nút Đăng Xuất
+                        else
                         {
-                            <li class="nav-item"><span class="nav-link text-dark">👋 Chào, @Context.Session.GetString("Username")</span></li>
-                            <li class="nav-item"><a class="nav-link text-secondary" href="/Account/Logout">Đăng Xuất</a></li>
+                            <li class="nav-item ms-auto"><span class="nav-link text-dark">👋 Chào, <b class="text-success">@Context.Session.GetString("Username")</b></span></li>
+                            <li class="nav-item"><a class="nav-link text-danger fw-bold hover-effect" href="/Account/Logout">Đăng Xuất</a></li>
                         }
                     </ul>
                 </div>
@@ -72,10 +119,9 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - WebNauAn - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top footer text-muted mt-5 bg-white">
+        <div class="container py-3">
+            &copy; 2026 - Hệ thống WebNauAn
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

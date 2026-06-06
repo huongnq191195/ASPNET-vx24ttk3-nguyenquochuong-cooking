@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<WebNauAn.Models.Recipe>
+
 <div class="container mt-4">
     <h2 class="text-danger border-bottom pb-2 font-weight-bold">🛠️ Trang Quản Trị Viên (Admin)</h2>
 
@@ -52,12 +53,16 @@
                                     string imgSrc = item.HinhanhUrl;
                                     if (!string.IsNullOrEmpty(imgSrc) && !imgSrc.StartsWith("/"))
                                     {
-                                        imgSrc = "/" + imgSrc; // Tự sửa lỗi đường dẫn cục bộ nếu thiếu dấu gạch chéo
+                                        imgSrc = "/" + imgSrc;
                                     }
                                 }
-                                <img src="@imgSrc" class="img-thumbnail" style="width: 80px; height: 60px; object-fit: cover;" />
+                                <a href="/Recipe/Details/@item.Id">
+                                    <img src="@imgSrc" class="img-thumbnail hover-effect" style="width: 80px; height: 60px; object-fit: cover;" />
+                                </a>
                             </td>
-                            <td><strong>@item.TenMon</strong></td>
+                            <td>
+                                <a href="/Recipe/Details/@item.Id" class="text-decoration-none text-dark fw-bold hover-effect">@item.TenMon</a>
+                            </td>
                             <td>@item.Category?.MucCha - @item.Category?.MucCon</td>
                             <td>
                                 @if (item.IsApproved)
