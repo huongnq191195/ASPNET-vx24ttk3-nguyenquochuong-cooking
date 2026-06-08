@@ -53,7 +53,7 @@ Hệ thống được tổ chức khoa học để phục vụ việc chấm đi
 
 Để hỗ trợ Giảng viên cài đặt và chấm điểm nhanh chóng, toàn bộ quy trình cấu hình chi tiết đã được biên soạn riêng. Vui lòng truy cập đường dẫn dưới đây:
 
- **[XEM HƯỚNG DẪN CÀI ĐẶT CHI TIẾT TẠI ĐÂY](setup/huong_dan_cai_dat.md)**
+ **[XEM HƯỚNG DẪN CÀI ĐẶT CHI TIẾT TẠI ĐÂY](setup/HUONG_DAN_CAI_DAT.md)**
 
 ### Tóm tắt các bước thực hiện nhanh:
 1. **Tải mã nguồn:** Clone hoặc download mã nguồn từ Repository này về máy.
