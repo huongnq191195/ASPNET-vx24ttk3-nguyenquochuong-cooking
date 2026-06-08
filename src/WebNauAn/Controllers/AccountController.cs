@@ -30,15 +30,8 @@ namespace WebNauAn.Controllers
                 return View(user);
             }
 
-            // 2. Tự động phân quyền ngầm
-            if (user.Username?.ToLower() == "admin")
-            {
-                user.Role = "Admin";
-            }
-            else
-            {
-                user.Role = "Member";
-            }
+            // 2. Gán quyền mặc định cho người dùng mới
+            user.Role = "Member";
 
             // 3. Lưu vào Database
             _context.Users.Add(user);
