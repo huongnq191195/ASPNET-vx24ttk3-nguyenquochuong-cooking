@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Thống Kê";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary font-weight-bold">📊 Thống kê dữ liệu hệ thống</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white p-3 shadow">
+                <h3>Tổng bài viết</h3>
+                <h1 class="display-4">@ViewBag.Total</h1>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white p-3 shadow">
+                <h3>Đã duyệt</h3>
+                <h1 class="display-4">@ViewBag.DaDuyet</h1>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-dark p-3 shadow">
+                <h3>Chờ duyệt</h3>
+                <h1 class="display-4">@ViewBag.ChoDuyet</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4 p-4 shadow">
+        <h4>Số lượng món ăn theo danh mục</h4>
+        <table class="table table-bordered mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Tên danh mục</th>
+                    <th>Số lượng món</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.Stats)
+                {
+                    <tr>
+                        <td>@item.TenDanhMuc</td>
+                        <td>@item.SoLuong</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <a href="/Recipe/AdminDuyet" class="btn btn-secondary mt-3">⬅ Quay lại Trang Admin</a>
+</div>

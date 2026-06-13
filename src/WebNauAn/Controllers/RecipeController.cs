@@ -247,6 +247,32 @@ namespace WebNauAn.Controllers
             return View(recipes);
         }
 
+        // --- HÀM THỐNG KÊ MỚI ---
+        public IActionResult ThongKe()
+        {
+            var role = HttpContext.Session.GetString("Role");
+            if (role != "Admin") return RedirectToAction("Index", "Recipe");
+
+            // Lấy dữ liệu
+            var recipes = _context.Recipes.ToList();
+            var total = recipes.Count;
+            var daDuyet = recipes.Count(r => r.IsApproved);
+            var choDuyet = total - daDuyet;
+
+            // Thống kê theo danh mục
+            var stats = _context.Categories.Select(c => new {
+                TenDanhMuc = c.MucCha + " - " + c.MucCon,
+                SoLuong = _context.Recipes.Count(r => r.CategoryId == c.Id)
+            }).ToList();
+
+            ViewBag.Total = total;
+            ViewBag.DaDuyet = daDuyet;
+            ViewBag.ChoDuyet = choDuyet;
+            ViewBag.Stats = stats;
+
+            return View();
+        }
+
         public IActionResult Approve(int id)
         {
             var role = HttpContext.Session.GetString("Role");
