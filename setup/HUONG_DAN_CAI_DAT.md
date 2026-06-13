@@ -4,7 +4,7 @@
 
 - Visual Studio 2022 hoặc mới hơn
 - .NET 8 SDK
-- SQL Server Express hoặc SQL Server LocalDB
+- SQL Server Express hoặc SQL Server LocalDB (khuyến nghị LocalDB đi kèm Visual Studio)
 - SQL Server Management Studio (SSMS)
 
 ---
@@ -41,6 +41,8 @@ Mở file:
 ```text
 setup/WebNauAnDb_V16.sql
 ```
+
+Sau khi mở file, đảm bảo đang kết nối đúng Server `(localdb)\MSSQLLocalDB` trước khi nhấn Execute.
 
 ### Bước 3: Thực thi Script
 
@@ -144,8 +146,9 @@ Mật khẩu: 111
 ### Quản trị viên
 
 - Duyệt công thức do người dùng gửi
-- Quản lý danh mục món ăn
+- Thêm danh mục món ăn
 - Thay đổi hình nền hệ thống
+- Xem báo cáo thống kê số lượng món ăn theo danh mục
 
 ---
 
