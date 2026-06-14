@@ -238,13 +238,28 @@ namespace WebNauAn.Controllers
             return Redirect(Request.Headers["Referer"].ToString() ?? "/Recipe/Index");
         }
 
-        public IActionResult AdminDuyet()
+        public IActionResult AdminDuyet(int page = 1)
         {
             var role = HttpContext.Session.GetString("Role");
             if (role != "Admin") return RedirectToAction("Index", "Recipe");
-            var recipes = _context.Recipes.Include(r => r.Category).ToList();
-            foreach (var r in recipes) { if (!string.IsNullOrEmpty(r.HinhanhUrl) && !r.HinhanhUrl.StartsWith("/")) r.HinhanhUrl = "/" + r.HinhanhUrl; }
-            return View(recipes);
+
+            var allRecipes = _context.Recipes.Include(r => r.Category).ToList();
+            foreach (var r in allRecipes) { if (!string.IsNullOrEmpty(r.HinhanhUrl) && !r.HinhanhUrl.StartsWith("/")) r.HinhanhUrl = "/" + r.HinhanhUrl; }
+
+            int pageSize = 10;
+            int totalItems = allRecipes.Count;
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            if (page < 1) page = 1;
+            if (page > totalPages && totalPages > 0) page = totalPages;
+
+            var pagedRecipes = allRecipes.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalCount = totalItems;
+            ViewBag.TotalUnapproved = allRecipes.Count(r => !r.IsApproved);
+
+            return View(pagedRecipes);
         }
 
         // --- HÀM THỐNG KÊ MỚI ---

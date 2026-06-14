@@ -24,8 +24,8 @@
                 <hr class="bg-white" />
                 <p class="fs-5">Chào mừng quay trở lại, <strong>Admin</strong>!</p>
                 <ul>
-                    <li>Tổng số bài viết trên hệ thống: <strong>@Model.Count()</strong></li>
-                    <li>Bài viết chờ duyệt: <strong>@Model.Count(r => !r.IsApproved)</strong></li>
+                    <li>Tổng số bài viết trên hệ thống: <strong>@ViewBag.TotalCount</strong></li>
+                    <li>Bài viết chờ duyệt: <strong>@ViewBag.TotalUnapproved</strong></li>
                 </ul>
             </div>
         </div>
@@ -91,5 +91,15 @@
                 </tbody>
             </table>
         </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-4">
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="/Recipe/AdminDuyet?page=@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
     </div>
 </div>
