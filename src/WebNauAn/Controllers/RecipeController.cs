@@ -238,14 +238,44 @@ namespace WebNauAn.Controllers
             return Redirect(Request.Headers["Referer"].ToString() ?? "/Recipe/Index");
         }
 
-        public IActionResult AdminDuyet(int page = 1)
+        public IActionResult AdminDuyet(string searchString, string statusFilter, int page = 1)
         {
             var role = HttpContext.Session.GetString("Role");
             if (role != "Admin") return RedirectToAction("Index", "Recipe");
 
+            // Lưu lại từ khóa tìm kiếm và bộ lọc để hiển thị lại trên giao diện
+            ViewBag.SearchString = searchString;
+            ViewBag.StatusFilter = statusFilter;
+
             var allRecipes = _context.Recipes.Include(r => r.Category).ToList();
+
+            // Lấy tổng số liệu cho phần "Tổng quan hệ thống" (luôn đếm tổng, không bị ảnh hưởng bởi bộ lọc)
+            ViewBag.TotalCount = allRecipes.Count;
+            ViewBag.TotalUnapproved = allRecipes.Count(r => !r.IsApproved);
+
+            // Bắt đầu lọc dữ liệu theo Tìm kiếm (Tên món)
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                allRecipes = allRecipes.Where(r => r.TenMon.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            // Bắt đầu lọc dữ liệu theo Trạng thái (Đã duyệt / Chưa duyệt)
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+                if (statusFilter == "Approved")
+                {
+                    allRecipes = allRecipes.Where(r => r.IsApproved).ToList();
+                }
+                else if (statusFilter == "Unapproved")
+                {
+                    allRecipes = allRecipes.Where(r => !r.IsApproved).ToList();
+                }
+            }
+
+            // Xử lý lại đường dẫn hình ảnh (giữ nguyên logic cũ của bạn)
             foreach (var r in allRecipes) { if (!string.IsNullOrEmpty(r.HinhanhUrl) && !r.HinhanhUrl.StartsWith("/")) r.HinhanhUrl = "/" + r.HinhanhUrl; }
 
+            // Giữ nguyên logic Phân trang cũ
             int pageSize = 10;
             int totalItems = allRecipes.Count;
             int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
@@ -256,8 +286,6 @@ namespace WebNauAn.Controllers
 
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = totalPages;
-            ViewBag.TotalCount = totalItems;
-            ViewBag.TotalUnapproved = allRecipes.Count(r => !r.IsApproved);
 
             return View(pagedRecipes);
         }

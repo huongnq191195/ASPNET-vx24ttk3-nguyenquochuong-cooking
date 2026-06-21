@@ -36,6 +36,30 @@
         </div>
     </div>
 
+    <div class="card p-3 mb-4 shadow-sm bg-light border">
+        <form action="/Recipe/AdminDuyet" method="get">
+            <div class="row g-2">
+                <div class="col-md-5">
+                    <label class="form-label small text-secondary">🔍 Tìm theo tên món ăn:</label>
+                    <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control" placeholder="Ví dụ: bánh xèo, chè..." />
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label small text-secondary">📌 Trạng thái duyệt:</label>
+                    <select name="statusFilter" class="form-select">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="Approved" selected="@(ViewBag.StatusFilter == "Approved" ? "selected" : null)">✅ Đã duyệt (Đang hiển thị)</option>
+                        <option value="Unapproved" selected="@(ViewBag.StatusFilter == "Unapproved" ? "selected" : null)">⏳ Chờ kiểm duyệt</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">Lọc kết quả</button>
+                </div>
+            </div>
+            <div class="text-end mt-2">
+                <a href="/Recipe/AdminDuyet" class="btn btn-sm btn-outline-secondary">❌ Xóa bộ lọc</a>
+            </div>
+        </form>
+    </div>
     <div class="card p-4 shadow-sm">
         <h4 class="mb-3 font-weight-bold text-secondary">📋 Danh sách quản lý bài đăng</h4>
         <div class="table-responsive">
@@ -50,53 +74,63 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @if (!Model.Any())
                     {
                         <tr>
-                            <td>
-                                @{
-                                    string imgSrc = item.HinhanhUrl;
-                                    if (!string.IsNullOrEmpty(imgSrc) && !imgSrc.StartsWith("/"))
-                                    {
-                                        imgSrc = "/" + imgSrc;
-                                    }
-                                }
-                                <a href="/Recipe/Details/@item.Id">
-                                    <img src="@imgSrc" class="img-thumbnail hover-effect" style="width: 80px; height: 60px; object-fit: cover;" />
-                                </a>
-                            </td>
-                            <td>
-                                <a href="/Recipe/Details/@item.Id" class="text-decoration-none text-dark fw-bold hover-effect">@item.TenMon</a>
-                            </td>
-                            <td>@item.Category?.MucCha - @item.Category?.MucCon</td>
-                            <td>
-                                @if (item.IsApproved)
-                                {
-                                    <span class="badge bg-success p-2">✅ Đang hiển thị</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-warning text-dark p-2">⏳ Chờ kiểm duyệt</span>
-                                }
-                            </td>
-                            <td>
-                                @if (!item.IsApproved)
-                                {
-                                    <a href="/Recipe/Approve/@item.Id" class="btn btn-sm btn-primary me-1 font-weight-bold">✔ Duyệt bài</a>
-                                }
-                                <a href="/Recipe/Delete/@item.Id" onclick="return confirm('Bạn có chắc chắn muốn xóa bài này không?')" class="btn btn-sm btn-danger font-weight-bold">❌ Xóa bài</a>
-                            </td>
+                            <td colspan="5" class="text-center text-muted py-3">Không tìm thấy bài viết nào phù hợp.</td>
                         </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @{
+                                        string imgSrc = item.HinhanhUrl;
+                                        if (!string.IsNullOrEmpty(imgSrc) && !imgSrc.StartsWith("/"))
+                                        {
+                                            imgSrc = "/" + imgSrc;
+                                        }
+                                    }
+                                    <a href="/Recipe/Details/@item.Id">
+                                        <img src="@imgSrc" class="img-thumbnail hover-effect" style="width: 80px; height: 60px; object-fit: cover;" />
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/Recipe/Details/@item.Id" class="text-decoration-none text-dark fw-bold hover-effect">@item.TenMon</a>
+                                </td>
+                                <td>@item.Category?.MucCha - @item.Category?.MucCon</td>
+                                <td>
+                                    @if (item.IsApproved)
+                                    {
+                                        <span class="badge bg-success p-2">✅ Đang hiển thị</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark p-2">⏳ Chờ kiểm duyệt</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!item.IsApproved)
+                                    {
+                                        <a href="/Recipe/Approve/@item.Id" class="btn btn-sm btn-primary me-1 font-weight-bold">✔ Duyệt bài</a>
+                                    }
+                                    <a href="/Recipe/Delete/@item.Id" onclick="return confirm('Bạn có chắc chắn muốn xóa bài này không?')" class="btn btn-sm btn-danger font-weight-bold">❌ Xóa bài</a>
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
         </div>
+
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center mt-4">
                 @for (int i = 1; i <= ViewBag.TotalPages; i++)
                 {
                     <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                        <a class="page-link" href="/Recipe/AdminDuyet?page=@i">@i</a>
+                        <a class="page-link" href="/Recipe/AdminDuyet?page=@i&searchString=@ViewBag.SearchString&statusFilter=@ViewBag.StatusFilter">@i</a>
                     </li>
                 }
             </ul>
