@@ -146,6 +146,8 @@ Mật khẩu: 111
 ### Quản trị viên
 
 - Duyệt công thức do người dùng gửi
+- Tìm kiếm công thức nâng cao: Tìm kiếm nhanh các món ăn theo tên hoặc từ khóa ngay tại trang quản lý
+- Bộ lọc trạng thái bài đăng: Lọc danh sách món ăn theo trạng thái (Đã duyệt / Chờ kiểm duyệt)
 - Thêm danh mục món ăn
 - Thay đổi hình nền hệ thống
 - Xem báo cáo thống kê số lượng món ăn theo danh mục
